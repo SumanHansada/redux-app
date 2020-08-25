@@ -1,32 +1,22 @@
-// In JavaScript Functions are First Class Citizens
-// It means, we can -
+// Higher Order Functions
+// Functions which takes function as an argument, or return it or Both
+// Instead of working on string, booleans or number, it goes higher and operates on functions
 
-// * Assign it to a variable
+// Function as an argument in function
+function greet(fn) {
+    console.log(fn());
+}
 
+// Function returned by a function
 function sayHello() {
-    return "Hello World";
-}
-
-let fn = sayHello;
-// fn(); is same as sayHello();
-
-// * Pass as an argument
-
-function greet(fnMessage) {
-    console.log(fnMessage());
-}
-
-greet(sayHello);
-// passing the reference of sayHello to greet
-
-// * Return from other functions
-
-function sayHelloAgain() {
     return function() {
         return "Hello World";
     }
 }
 
-let fnAgain = sayHelloAgain;
-let message = fnAgain();
-// returning anonymous function from sayHelloAgain
+// Another example
+let numbers = [1, 2, 3];
+numbers.map(number => number * 2);
+
+// Another example
+setTimeout(() => console.log("Hello"), 1000);
