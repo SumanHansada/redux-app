@@ -1,22 +1,12 @@
-// Higher Order Functions
-// Functions which takes function as an argument, or return it or Both
-// Instead of working on string, booleans or number, it goes higher and operates on functions
+let input = "   JavaScript   ";
+let output = "<div>" + input.trim() + "</div>";
 
-// Function as an argument in function
-function greet(fn) {
-    console.log(fn());
-}
+// Another way using function composition
+const trim = str => str.trim();
+const wrapInDiv = str => `<div>${str}</div>`;
+const toLowerCase = str => str.toLowerCase();
 
-// Function returned by a function
-function sayHello() {
-    return function() {
-        return "Hello World";
-    }
-}
-
-// Another example
-let numbers = [1, 2, 3];
-numbers.map(number => number * 2);
-
-// Another example
-setTimeout(() => console.log("Hello"), 1000);
+const result = wrapInDiv(toLowerCase(trim(input)));
+// Problems -
+// * Need to read the expression from right to left
+// * So many brackets
