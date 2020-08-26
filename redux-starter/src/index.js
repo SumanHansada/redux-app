@@ -6,6 +6,7 @@ let output = "<div>" + input.trim() + "</div>";
 // Another way using function composition
 const trim = str => str.trim();
 const wrapInDiv = str => `<div>${str}</div>`;
+const wrap = type => str => `<${type}>${str}</${type}>`;
 const toLowerCase = str => str.toLowerCase();
 
 
@@ -22,7 +23,8 @@ console.log(transform(input));
 
 // Using Lodash pipe
 // Order of operation is from left to right
-const transformAnother = pipe(trim, toLowerCase, wrapInDiv);
+// pipe function creates a pipeline - output of one function is the input of other function
+const transformAnother = pipe(trim, toLowerCase, wrap("div"));
 console.log(transformAnother(input));
 
 
