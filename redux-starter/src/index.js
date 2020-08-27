@@ -1,62 +1,58 @@
-import {compose, pipe} from "lodash/fp";
+const { add } = require("lodash");
 
-let input = "   JavaScript   ";
-let output = "<div>" + input.trim() + "</div>";
+// Updating Objects
+const person = {name: "Suman"};
+const updated = Object.assign({}, person, {name: "Bob", age: 30});
 
-// Another way using function composition
-const trim = str => str.trim();
-const wrapInDiv = str => `<div>${str}</div>`;
-const wrap = type => str => `<${type}>${str}</${type}>`;
-const toLowerCase = str => str.toLowerCase();
+console.log(updated);
 
+// Using Spread Operator
+const updatedAnother = {...person, name: "Bob"};
+console.log(updatedAnother);
 
-// Problems -
-// * Need to read the expression from right to left
-// * So many brackets
-const result = wrapInDiv(toLowerCase(trim(input)));
-console.log(result);
+// Working With Nested Object
+const person1 = {
+    name: "Raubin",
+    address: {
+        state: "Bihar",
+        district: "Patna"
+    }
+}
 
-// Using Lodash compose
-// Still order of operation is from right to left
-const transform = compose(wrapInDiv, toLowerCase, trim);
-console.log(transform(input));
+// Now if we modify name using spread - Shallow Copy
+const updated1 = {...person1, name: "Alok"}
 
-// Using Lodash pipe
-// Order of operation is from left to right
-// pipe function creates a pipeline - output of one function is the input of other function
-const transformAnother = pipe(trim, toLowerCase, wrap("div"));
-console.log(transformAnother(input));
+// Now if we modify the address in updated1 object
+// updated1.address.district = "Saharsa";
 
-// Pure Functions
-// If we call it every time with same argument, it will return same value
-// In Pure Functions, We cannot use
-// * Random values
-// * No current date/time
-// * No global states (DOM, files, db etc)
-// * No mutation of parameters
+// It changed the address of person1 also
+console.log(person1);
+// address: {state: "Bihar", district: "Saharsa"}
+// name: "Raubin"
 
-// Benefits
-// * Self Documenting
-// * Easily Testable
-// * Concurrency
-// * Cacheable
+// How to fix this ?? - Use deep copy
 
-// Immutability
-// Once you create an object, it cannot be changed
-// You have to create a copy first and then change that copy
+const updated2 = {...person1, address: {...person1.address, district: "Darbhanga"}, name: "Ram"}
+console.log(updated2);
 
-// In Pure Functional Programming Language, Once you create the object, it cannot be changed directly
-// JavaScript is not a Pure Functional Programming Language
+// Original object is not changed
+console.log(person1);
 
-// const => We can change the object, but we cannot reassign it
+// Updating Arrays
+const numbers = [1, 2, 3];
+const added = [...numbers, 4];
 
-// Why Immutability ?
-// * Predictability
-// * Faster Change Detection (Only need to compare references and not data)
-// * Concurrency
+console.log(added);
 
-// Cons
-// * Performance
-// * Memory Overhead
+// Adding at specific position
+const index = numbers.indexOf(2);
+const added1 = [...numbers.slice(0, index), 4, ...numbers.slice(index)];
+console.log(added1);
 
-// When you are building application with Redux, you should not mutate data.
+// Removing
+const removed = numbers.filter(n => n !== 2);
+console.log(removed);
+
+// Updating
+const updated3 = numbers.map(n => (n == 2 ? 20: n));
+console.log(updated3);
