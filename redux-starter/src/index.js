@@ -1,43 +1,29 @@
-// Coding Challanges
-import { pipe } from "lodash/fp";
-import { produce } from "immer";
+import store from "./store";
+import * as actions from "./actionTypes";
+import { bugAdded, bugResolved, bugRemoved } from "./actions";
 
-// Exercise - 1
-let input = { tag : "JAVASCRIPT"};
+// Subscribing the Store
+const unsubscribe = store.subscribe(() => {
+    console.log("Store changed!", store.getState());
+})
 
-const getObjectValue = obj => obj.tag;
-const toLowerCase = str => str.toLowerCase();
-const circularBracketify = (str) => `(${str})`;
+// Dispatching Actions
+store.dispatch(bugAdded("Bug1"));
 
-const transform = pipe(getObjectValue, toLowerCase, circularBracketify);
+store.dispatch(bugResolved(1));
 
-const output = transform(input);
-console.log(output);
+// Unsubscribing the Store
+unsubscribe();
 
-// Exercise - 2
-let recipe = {
-    name : "Spaghetti Bolognese",
-    ingredients : ["egg", "salt"]
-};
+store.dispatch(bugRemoved(1));
 
-// Add an ingredient
-const added = {
-    ...recipe,
-    ingredients: [...recipe.ingredients, "cream"]
-};
+// Get the current state of the store
+// console.log(store.getState());
 
-// Update an ingredient
-const updated = {
-    ...recipe,
-    ingredients: recipe.ingredients.map(ingredient => 
-        ingredient === "egg" ? "egg white" : ingredient
-    )
-};
-
-// Remove an ingredient
-const removed = {
-    ...recipe,
-    ingredients: recipe.ingredients.filter(ingredient => ingredient !== "egg")
-};
-
-console.log(recipe);
+// Store object
+console.log(store)
+// dispatch: ƒ dispatch(action)
+// getState: ƒ getState()
+// replaceReducer: ƒ replaceReducer(nextReducer)
+// subscribe: ƒ subscribe(listener)
+// Symbol(observable): ƒ observable()
