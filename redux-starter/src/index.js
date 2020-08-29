@@ -1,5 +1,4 @@
 import store from "./store";
-import * as actions from "./actionTypes";
 import { bugAdded, bugResolved, bugRemoved } from "./actions";
 
 // Subscribing the Store
