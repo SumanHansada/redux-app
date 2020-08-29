@@ -1,5 +1,6 @@
 import store from "./store";
 import * as actions from "./actionTypes";
+import { bugAdded, bugRemoved } from "./actions";
 
 // Subscribing the Store
 const unsubscribe = store.subscribe(() => {
@@ -7,22 +8,12 @@ const unsubscribe = store.subscribe(() => {
 })
 
 // Dispatching Actions
-store.dispatch({
-    type: actions.BUG_ADDED,
-    payload: {
-        description: "Bug1"
-    }
-});
+store.dispatch(bugAdded("Bug2"));
 
 // Unsubscribing the Store
 unsubscribe();
 
-store.dispatch({
-    type: actions.BUG_REMOVED,
-    payload: {
-        id: 1
-    }
-});
+store.dispatch(bugRemoved(1));
 
 // Get the current state of the store
 // console.log(store.getState());
