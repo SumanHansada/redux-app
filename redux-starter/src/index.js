@@ -5,36 +5,22 @@
 // * Immer
 // * Mori
 
-import { Map } from "immutable";
-// import Map from "immutable";
-
-// Normal object mutation
+import { produce } from 'immer';
 
 let book = {title: "Harry Potter"};
 
+// Using Immer.js
+
 function publish(book) {
-    book.isPublished = true;
+    return produce(book, draftBook => {
+        draftBook.isPublished = true;
+    });
 }
 
-publish(book);
+let updated = publish(book);
 
 console.log(book);
+// {title: "Harry Potter"}
 
-// Using Map from immutable.js
-
-let book1 = Map({title: "Harry Potter"});
-console.log(book1);
-
-// Learn new APIs
-// To get title
-console.log(book1.get("title"));
-
-// To set properties, it will return a new object
-function publish1(book) {
-    return book.set("isPublished", true);
-}
-
-book1 = publish1(book1);
-
-// TO get the actual JavaScript object
-console.log(book1.toJS())
+console.log(updated);
+// {title: "Harry Potter", isPublished: true}
