@@ -1,26 +1,43 @@
-// Forcing Immutability
+// Coding Challanges
+import { pipe } from "lodash/fp";
+import { produce } from "immer";
 
-// Libraries
-// * Immutable
-// * Immer
-// * Mori
+// Exercise - 1
+let input = { tag : "JAVASCRIPT"};
 
-import { produce } from 'immer';
+const getObjectValue = obj => obj.tag;
+const toLowerCase = str => str.toLowerCase();
+const circularBracketify = (str) => `(${str})`;
 
-let book = {title: "Harry Potter"};
+const transform = pipe(getObjectValue, toLowerCase, circularBracketify);
 
-// Using Immer.js
+const output = transform(input);
+console.log(output);
 
-function publish(book) {
-    return produce(book, draftBook => {
-        draftBook.isPublished = true;
-    });
-}
+// Exercise - 2
+let recipe = {
+    name : "Spaghetti Bolognese",
+    ingredients : ["egg", "salt"]
+};
 
-let updated = publish(book);
+// Add an ingredient
+const added = {
+    ...recipe,
+    ingredients: [...recipe.ingredients, "cream"]
+};
 
-console.log(book);
-// {title: "Harry Potter"}
+// Update an ingredient
+const updated = {
+    ...recipe,
+    ingredients: recipe.ingredients.map(ingredient => 
+        ingredient === "egg" ? "egg white" : ingredient
+    )
+};
 
-console.log(updated);
-// {title: "Harry Potter", isPublished: true}
+// Remove an ingredient
+const removed = {
+    ...recipe,
+    ingredients: recipe.ingredients.filter(ingredient => ingredient !== "egg")
+};
+
+console.log(recipe);
