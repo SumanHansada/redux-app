@@ -1,58 +1,40 @@
-const { add } = require("lodash");
+// Forcing Immutability
 
-// Updating Objects
-const person = {name: "Suman"};
-const updated = Object.assign({}, person, {name: "Bob", age: 30});
+// Libraries
+// * Immutable
+// * Immer
+// * Mori
 
-console.log(updated);
+import { Map } from "immutable";
+// import Map from "immutable";
 
-// Using Spread Operator
-const updatedAnother = {...person, name: "Bob"};
-console.log(updatedAnother);
+// Normal object mutation
 
-// Working With Nested Object
-const person1 = {
-    name: "Raubin",
-    address: {
-        state: "Bihar",
-        district: "Patna"
-    }
+let book = {title: "Harry Potter"};
+
+function publish(book) {
+    book.isPublished = true;
 }
 
-// Now if we modify name using spread - Shallow Copy
-const updated1 = {...person1, name: "Alok"}
+publish(book);
 
-// Now if we modify the address in updated1 object
-// updated1.address.district = "Saharsa";
+console.log(book);
 
-// It changed the address of person1 also
-console.log(person1);
-// address: {state: "Bihar", district: "Saharsa"}
-// name: "Raubin"
+// Using Map from immutable.js
 
-// How to fix this ?? - Use deep copy
+let book1 = Map({title: "Harry Potter"});
+console.log(book1);
 
-const updated2 = {...person1, address: {...person1.address, district: "Darbhanga"}, name: "Ram"}
-console.log(updated2);
+// Learn new APIs
+// To get title
+console.log(book1.get("title"));
 
-// Original object is not changed
-console.log(person1);
+// To set properties, it will return a new object
+function publish1(book) {
+    return book.set("isPublished", true);
+}
 
-// Updating Arrays
-const numbers = [1, 2, 3];
-const added = [...numbers, 4];
+book1 = publish1(book1);
 
-console.log(added);
-
-// Adding at specific position
-const index = numbers.indexOf(2);
-const added1 = [...numbers.slice(0, index), 4, ...numbers.slice(index)];
-console.log(added1);
-
-// Removing
-const removed = numbers.filter(n => n !== 2);
-console.log(removed);
-
-// Updating
-const updated3 = numbers.map(n => (n == 2 ? 20: n));
-console.log(updated3);
+// TO get the actual JavaScript object
+console.log(book1.toJS())
