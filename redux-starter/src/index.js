@@ -27,3 +27,13 @@ console.log(store)
 // replaceReducer: ƒ replaceReducer(nextReducer)
 // subscribe: ƒ subscribe(listener)
 // Symbol(observable): ƒ observable()
+
+// To use customStore
+// import store from "./customStore";
+// import * as actions from "./actions";
+
+// store.subscribe(() => console.log("Status Changed!"))
+
+// store.dispatch(actions.bugAdded("Bug1"));
+
+// console.log(store.getState());
