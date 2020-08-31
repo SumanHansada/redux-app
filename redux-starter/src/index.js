@@ -1,5 +1,6 @@
 import configureStore from "./store/configureStore";
 import * as actions from "./store/bugs";
+import { projectAdded } from "./store/projects";
 
 const store = configureStore();
 
@@ -9,6 +10,7 @@ const unsubscribe = store.subscribe(() => {
 })
 
 // Dispatching Actions
+store.dispatch(projectAdded({ name: "Project 1"}));
 store.dispatch(actions.bugAdded({ description: "Bug1"}));
 store.dispatch(actions.bugAdded({ description: "Bug2"}));
 store.dispatch(actions.bugAdded({ description: "Bug3"}));
