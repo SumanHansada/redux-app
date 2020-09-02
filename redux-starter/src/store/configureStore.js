@@ -1,11 +1,18 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import reducer from './reducer';
 import logger from "./middleware/logger";
+// import func from './middleware/func';
 
+// Redux toolkit already has thunk middleware to dispatch functions
 export default function() {
     return configureStore({ 
         reducer, 
-        middleware: [logger("console")] 
+        middleware: [
+            // Using Thunk
+            ...getDefaultMiddleware(),
+            logger({ destination: "console" }) 
+            // func
+        ] 
     });
 }
 

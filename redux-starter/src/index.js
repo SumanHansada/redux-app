@@ -10,6 +10,16 @@ const unsubscribe = store.subscribe(() => {
     console.log("Store changed!", store.getState());
 })
 
+// Dispatching Functions
+// Thunk
+store.dispatch((dispatch, getState) => {
+    // Call an API
+    // when the promise is resloved => dispatch()
+    // If the promise is rejected => dispatch()
+    console.log("Hello");
+    dispatch({type: "bugsReceived", bugs: [1, 2, 3]})
+});
+
 // Dispatching Actions
 store.dispatch(userAdded({ name: "User 1"}));
 store.dispatch(userAdded({ name: "User 2"}));
