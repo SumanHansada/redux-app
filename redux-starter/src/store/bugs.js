@@ -23,11 +23,7 @@ const slice = createSlice({
             bugs.lastFetch = Date.now();
         },
         bugAdded: (bugs, action) => {
-            bugs.list.push({
-                id: ++lastId,
-                description: action.payload.description,
-                resolved: false,
-            });
+            bugs.list.push(action.payload);
         },
         bugsRequestFailed: (bugs, action) => {
             bugs.loading = false;
@@ -61,6 +57,13 @@ export default slice.reducer;
 // Action Creators
 const url = "/bugs";
 
+export const addBug = (bug) =>
+    apiCallBegan({
+        url,
+        method: "post",
+        data: bug,
+        onSuccess: bugAdded.type,
+    });
 export const loadBugs = () => (dispatch, getState) => {
     const { lastFetch } = getState().entities.bugs;
 
