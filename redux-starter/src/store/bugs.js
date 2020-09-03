@@ -5,13 +5,13 @@ let lastId = 0;
 
 const slice = createSlice({
     name: "bugs",
-    initialState: [{
+    initialState: {
         list: [],
         loading: false,
         lastFetch: null
-    }],
+    },
     reducers: {
-        // action => action handlers
+        // action => action handlers        
         bugAdded: (bugs, action) => {
             bugs.list.push({
                 id: ++lastId,
@@ -44,12 +44,12 @@ export default slice.reducer;
 // bugs => get unresolved bugs from cache
 
 export const getUnresolvedBugs = createSelector(
-    state => state.entities.bugs,
+    state => state.entities.bugs.list,
     state => state.entities.projects,
     (bugs, projects) => bugs.filter(bug => !bug.resolved)
 );
 
 export const getBugsByUser = userId => createSelector(
-    state => state.entities.bugs,
+    state => state.entities.bugs.list,
     bugs => bugs.filter(bug => bug.userId === userId)
 );
