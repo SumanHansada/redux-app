@@ -2,6 +2,7 @@ import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import reducer from './reducer';
 import logger from "./middleware/logger";
 import toast from './middleware/toast';
+import api from './middleware/api';
 // import func from './middleware/func';
 
 // Redux toolkit already has thunk middleware to dispatch functions
@@ -12,7 +13,8 @@ export default function() {
             // Using Thunk
             ...getDefaultMiddleware(),
             logger({ destination: "console" }),
-            toast
+            toast,
+            api
             // func
         ] 
     });
