@@ -8,5 +8,7 @@
         "raubin",
         "saharsa",
         "suman"
-    ]
+    ],
+    "editor.formatOnSave": true,
+    "prettier.trailingComma": "none"
 }
