@@ -1,16 +1,5 @@
 import configureStore from "./store/configureStore";
-import {
-    bugAdded,
-    bugResolved,
-    bugRemoved,
-    getUnresolvedBugs,
-    bugAssignedToUser,
-    getBugsByUser,
-    loadBugs,
-    addBug,
-    resolveBug,
-    assignBugToUser,
-} from "./store/bugs";
+import { loadBugs, addBug, resolveBug, assignBugToUser } from "./store/bugs";
 import { projectAdded } from "./store/projects";
 import { userAdded } from "./store/users";
 
@@ -48,12 +37,6 @@ setTimeout(() => store.dispatch(assignBugToUser(1, 5)), 2000);
 // store.dispatch(userAdded({ name: "User 2"}));
 // store.dispatch(userAdded({ name: "User 3"}));
 // store.dispatch(projectAdded({ name: "Project 1"}));
-// store.dispatch(bugAdded({ description: "Bug 1"}));
-// store.dispatch(bugAdded({ description: "Bug 2"}));
-// store.dispatch(bugAdded({ description: "Bug 3"}));
-// store.dispatch(bugAssignedToUser({ bugId: 1, userId: 1}));
-
-// store.dispatch(bugResolved({id: 1}));
 
 // const unresolvedBugs = getUnresolvedBugs(store.getState());
 // console.log(unresolvedBugs);
@@ -63,8 +46,6 @@ setTimeout(() => store.dispatch(assignBugToUser(1, 5)), 2000);
 
 // Unsubscribing the Store
 // unsubscribe();
-
-// store.dispatch(bugRemoved({id: 1}));
 
 // Get the current state of the store
 // console.log(store.getState());
