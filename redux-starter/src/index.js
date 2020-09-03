@@ -2,6 +2,7 @@ import configureStore from "./store/configureStore";
 import { bugAdded, bugResolved, bugRemoved, getUnresolvedBugs, bugAssignedToUser, getBugsByUser } from "./store/bugs";
 import { projectAdded } from "./store/projects";
 import { userAdded } from "./store/users";
+import * as actions from "./store/api";
 
 const store = configureStore();
 
@@ -11,14 +12,10 @@ const unsubscribe = store.subscribe(() => {
 })
 
 // Calling APIs
-store.dispatch({
-    type: "apiCallBegan",
-    payload: {
-        url: "/bugs",
-        onSuccess: "bugsReceived",
-        onFailure: "apiRequestFailed"
-    }
-});
+store.dispatch(actions.apiCallBegan({
+    url: "/bugs",
+    onSuccess: "bugsReceived"
+}))
 
 // Dispatching Toast Notifications
 store.dispatch({
