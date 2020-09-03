@@ -13,8 +13,12 @@ const slice = createSlice({
     },
     reducers: {
         // action => action handlers
+        bugsRequested: (bugs, action) => {
+            bugs.loading = true;
+        },
         bugsReceived: (bugs, action) => {
             bugs.list = action.payload;
+            bugs.loading = false;
         },
         bugAdded: (bugs, action) => {
             bugs.list.push({
@@ -22,6 +26,9 @@ const slice = createSlice({
                 description: action.payload.description,
                 resolved: false,
             });
+        },
+        bugsRequestFailed: (bugs, action) => {
+            bugs.loading = false;
         },
         bugResolved: (bugs, action) => {
             const index = bugs.list.findIndex((bug) => bug.id === action.payload.id);
@@ -38,7 +45,15 @@ const slice = createSlice({
     },
 });
 
-export const { bugAdded, bugResolved, bugRemoved, bugAssignedToUser, bugsReceived } = slice.actions;
+export const {
+    bugAdded,
+    bugResolved,
+    bugRemoved,
+    bugAssignedToUser,
+    bugsReceived,
+    bugsRequested,
+    bugsRequestFailed,
+} = slice.actions;
 export default slice.reducer;
 
 // Action Creators
@@ -46,7 +61,9 @@ const url = "/bugs";
 export const loadBugs = () =>
     apiCallBegan({
         url,
+        onStart: bugsRequested.type,
         onSuccess: bugsReceived.type,
+        onFailure: bugsRequestFailed.type,
     });
 
 // Selector - It takes state and return the computed state
