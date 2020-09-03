@@ -1,12 +1,12 @@
 import configureStore from "./store/configureStore";
 import {
-  bugAdded,
-  bugResolved,
-  bugRemoved,
-  getUnresolvedBugs,
-  bugAssignedToUser,
-  getBugsByUser,
-  loadBugs,
+    bugAdded,
+    bugResolved,
+    bugRemoved,
+    getUnresolvedBugs,
+    bugAssignedToUser,
+    getBugsByUser,
+    loadBugs,
 } from "./store/bugs";
 import { projectAdded } from "./store/projects";
 import { userAdded } from "./store/users";
@@ -21,6 +21,7 @@ const store = configureStore();
 // Calling APIs
 // UI Layer
 store.dispatch(loadBugs());
+setTimeout(() => store.dispatch(loadBugs()), 2000);
 
 // Dispatching Toast Notifications
 // store.dispatch({
