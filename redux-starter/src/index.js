@@ -9,6 +9,7 @@ import {
     loadBugs,
     addBug,
     resolveBug,
+    assignBugToUser,
 } from "./store/bugs";
 import { projectAdded } from "./store/projects";
 import { userAdded } from "./store/users";
@@ -26,6 +27,7 @@ const store = configureStore();
 store.dispatch(loadBugs());
 
 setTimeout(() => store.dispatch(resolveBug(1599143680515)), 2000);
+setTimeout(() => store.dispatch(assignBugToUser(1, 5)), 2000);
 // Dispatching Toast Notifications
 // store.dispatch({
 //     type: "error",

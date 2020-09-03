@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { createSelector } from "reselect";
 import { apiCallBegan } from "./api";
 import moment from "moment";
+import { method } from "lodash";
 
 let lastId = 0;
 
@@ -39,7 +40,7 @@ const slice = createSlice({
             bugs.list = bugs.list.filter((bug) => bug.id !== action.payload.id);
         },
         bugAssignedToUser: (bugs, action) => {
-            const { bugId, userId } = action.payload;
+            const { id: bugId, userId } = action.payload;
             const index = bugs.list.findIndex((bug) => bug.id == bugId);
             bugs.list[index].userId = userId;
         },
@@ -82,7 +83,6 @@ export const loadBugs = () => (dispatch, getState) => {
         })
     );
 };
-
 export const resolveBug = (id) =>
     apiCallBegan({
         // PATCH /bugs/1
@@ -90,6 +90,15 @@ export const resolveBug = (id) =>
         method: "patch",
         data: { resolved: true },
         onSuccess: bugResolved.type,
+    });
+
+export const assignBugToUser = (bugId, userId) =>
+    apiCallBegan({
+        // PATCH /bugs/1
+        url: `${url}/${bugId}`,
+        method: "patch",
+        data: { userId },
+        onSuccess: bugAssignedToUser.type,
     });
 
 // Selector - It takes state and return the computed state
