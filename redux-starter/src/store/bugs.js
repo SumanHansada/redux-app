@@ -22,12 +22,15 @@ const slice = createSlice({
             bugs.loading = false;
             bugs.lastFetch = Date.now();
         },
+        // command - event
+        // addBug - bugAdded
         bugAdded: (bugs, action) => {
             bugs.list.push(action.payload);
         },
         bugsRequestFailed: (bugs, action) => {
             bugs.loading = false;
         },
+        // resolveBug (command) - bugResolved (event)
         bugResolved: (bugs, action) => {
             const index = bugs.list.findIndex((bug) => bug.id === action.payload.id);
             bugs.list[index].resolved = true;
@@ -79,6 +82,15 @@ export const loadBugs = () => (dispatch, getState) => {
         })
     );
 };
+
+export const resolveBug = (id) =>
+    apiCallBegan({
+        // PATCH /bugs/1
+        url: `${url}/${id}`,
+        method: "patch",
+        data: { resolved: true },
+        onSuccess: bugResolved.type,
+    });
 
 // Selector - It takes state and return the computed state
 // export const getUnresolvedBugs = state => state.entities.bugs.filter(bug => !bug.resolved);
