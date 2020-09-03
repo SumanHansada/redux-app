@@ -10,6 +10,16 @@ const unsubscribe = store.subscribe(() => {
     console.log("Store changed!", store.getState());
 })
 
+// Calling APIs
+store.dispatch({
+    type: "apiCallBegan",
+    payload: {
+        url: "/bugs",
+        onSuccess: "bugsReceived",
+        onFailure: "apiRequestFailed"
+    }
+});
+
 // Dispatching Toast Notifications
 store.dispatch({
     type: "error",
@@ -18,12 +28,12 @@ store.dispatch({
 
 // Dispatching Functions
 // Thunk
-store.dispatch((dispatch, getState) => {
+// store.dispatch((dispatch, getState) => {
     // Call an API
     // when the promise is resloved => dispatch()
     // If the promise is rejected => dispatch()
-    dispatch({type: "bugsReceived", bugs: [1, 2, 3]})
-});
+    // dispatch({type: "bugsReceived", bugs: [1, 2, 3]})
+// });
 
 // Dispatching Actions
 store.dispatch(userAdded({ name: "User 1"}));
