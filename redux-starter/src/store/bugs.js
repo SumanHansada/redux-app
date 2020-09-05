@@ -47,7 +47,7 @@ const slice = createSlice({
     },
 });
 
-const {
+export const {
     bugAdded,
     bugResolved,
     bugRemoved,
@@ -74,7 +74,7 @@ export const loadBugs = () => (dispatch, getState) => {
     const diffInMinutes = moment().diff(moment(lastFetch), "minutes");
     if (diffInMinutes < 10) return;
 
-    dispatch(
+    return dispatch(
         apiCallBegan({
             url,
             onStart: bugsRequested.type,
@@ -90,6 +90,13 @@ export const resolveBug = (id) =>
         method: "patch",
         data: { resolved: true },
         onSuccess: bugResolved.type,
+    });
+
+export const removeBug = (id) =>
+    apiCallBegan({
+        url: `${url}/${id}`,
+        method: "delete",
+        onSuccess: bugRemoved.type,
     });
 
 export const assignBugToUser = (bugId, userId) =>
