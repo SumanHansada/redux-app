@@ -92,6 +92,13 @@ export const resolveBug = (id) =>
         onSuccess: bugResolved.type,
     });
 
+export const removeBug = (id) =>
+    apiCallBegan({
+        url: `${url}/${id}`,
+        method: "delete",
+        onSuccess: bugRemoved.type,
+    });
+
 export const assignBugToUser = (bugId, userId) =>
     apiCallBegan({
         // PATCH /bugs/1

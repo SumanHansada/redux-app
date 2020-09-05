@@ -1,6 +1,15 @@
 import axios from "axios";
 import MockAdaptor from "axios-mock-adapter";
-import { addBug, bugAdded, getUnresolvedBugs, resolveBug, loadBugs } from "./../bugs";
+import {
+    addBug,
+    bugAdded,
+    getUnresolvedBugs,
+    resolveBug,
+    loadBugs,
+    getBugsByUser,
+    assignBugToUser,
+    removeBug,
+} from "./../bugs";
 import { apiCallBegan } from "../api";
 import configureStore from "../configureStore";
 
@@ -23,6 +32,34 @@ const createState = () => ({
 
 // Unit Test
 describe("bugsSlice", () => {
+    it("should remove the bug if it exists in the server", async () => {
+        fakeAxios.onDelete("/bugs/1").reply(200, { id: 1 });
+        fakeAxios.onPost("/bugs").reply(200, { id: 1 });
+
+        await store.dispatch(addBug());
+        await store.dispatch(removeBug(1));
+
+        expect(bugsSlice().list).toHaveLength(0);
+    });
+    it("should not remove anything if the bug don't exist in the server", async () => {
+        fakeAxios.onDelete("/bugs/1").reply(404);
+        fakeAxios.onPost("/bugs").reply(200, { id: 1 });
+
+        await store.dispatch(addBug());
+        await store.dispatch(removeBug(1));
+
+        expect(bugsSlice().list).toHaveLength(1);
+    });
+    it("should assign the user to bug if it's saved to the server", async () => {
+        fakeAxios.onPatch("/bugs/1").reply(200, { id: 1, userId: 1 });
+        fakeAxios.onPost("/bugs").reply(200, { id: 1 });
+
+        await store.dispatch(addBug());
+        await store.dispatch(assignBugToUser(1, 1));
+
+        expect(bugsSlice().list[0].userId).toBe(1);
+    });
+
     it("should mark the bug as resolved if it's saved to the server", async () => {
         fakeAxios.onPatch("/bugs/1").reply(200, { id: 1, resolved: true });
         fakeAxios.onPost("/bugs").reply(200, { id: 1 });
@@ -70,6 +107,14 @@ describe("selectors", () => {
         const result = getUnresolvedBugs(state);
 
         expect(result).toHaveLength(2);
+    });
+    it("getBugsByUser", () => {
+        const state = createState();
+        state.entities.bugs.list = [{ id: 1, userId: 1 }, { id: 2 }, { id: 3 }];
+
+        const result = getBugsByUser(1)(state);
+
+        expect(result).toHaveLength(1);
     });
 });
 

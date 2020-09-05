@@ -33,6 +33,17 @@ app.patch("/api/bugs/:id", (req, res) => {
   res.json(bug);
 });
 
+app.delete("/api/bugs/:id", (req, res) => {
+  const index = bugs.findIndex(bug => bug.id === parseInt(req.params.id));
+  const bug = bugs[index];
+  if(index >= 0)
+  {
+    bugs.splice(index, 1);
+    res.status(200).json(bug);
+  } else
+    res.status(404).json(bug);
+})
+
 app.listen(9001, () => {
   console.log("Node server started on port 9001.");
 });
